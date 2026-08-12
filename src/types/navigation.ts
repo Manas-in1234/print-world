@@ -90,5 +90,5 @@ export interface ValueProp {
   id: string;
   title: string;
   description: string;
-  icon: "quality" | "customize" | "delivery" | "secure";
+  icon: "quality" | "customize" | "delivery" | "secure" | "designed";
 }

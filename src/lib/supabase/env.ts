@@ -63,10 +63,7 @@ export function getSupabaseEnvDiagnostics() {
 }
 
 export function getServiceRoleKey(): string | undefined {
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!key) return undefined;
-  const trimmed = key.trim();
-  return trimmed.length > 0 ? trimmed : undefined;
+  return readPublicEnv("SUPABASE_SERVICE_ROLE_KEY");
 }
 
 export function getOpenAIKey(): string | undefined {
@@ -90,5 +87,9 @@ export function getPublicRazorpayKeyId() {
   return process.env.RAZORPAY_KEY_ID ?? process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
 }
 
-export const SUPABASE_NOT_CONFIGURED_MESSAGE =
+export const SUPABASE_AUTH_NOT_CONFIGURED_MESSAGE =
   "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.";
+
+/** Server-side catalog reads — requires URL + service role key. */
+export const CATALOG_NOT_CONFIGURED_MESSAGE =
+  "Catalog database not configured. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY on the server.";

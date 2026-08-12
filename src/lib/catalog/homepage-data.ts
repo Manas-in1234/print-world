@@ -1,5 +1,5 @@
-import { getProducts, getHomepageShapes } from "@/lib/catalog/products";
 import { getSiteSettings } from "@/lib/site-settings";
+import { loadCatalogFromApi } from "@/lib/catalog/load-catalog-api";
 import type { CatalogProduct, CatalogShape } from "@/lib/catalog/mappers";
 
 export interface HomepageData {
@@ -14,16 +14,15 @@ export interface HomepageData {
   };
 }
 
-/** Single consolidated fetch for homepage — deduplicated via React cache(). */
+/** Homepage catalog via server API — no browser Supabase env access. */
 export async function getHomepageData(): Promise<HomepageData> {
-  const [settings, shapes, allProductsResult] = await Promise.all([
+  const [settings, catalog] = await Promise.all([
     getSiteSettings(),
-    getHomepageShapes(),
-    getProducts({}),
+    loadCatalogFromApi({}),
   ]);
 
   const { featuredSlugs } = settings;
-  const { data: allProducts, error } = allProductsResult;
+  const { products: allProducts, error, shapes } = catalog;
 
   const products = featuredSlugs.length
     ? featuredSlugs

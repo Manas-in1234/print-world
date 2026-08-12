@@ -61,10 +61,10 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Print World. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link href="#privacy" className="text-sm text-muted hover:text-foreground">
+            <Link href="/about#contact" className="text-sm text-muted hover:text-foreground">
               Privacy
             </Link>
-            <Link href="#terms" className="text-sm text-muted hover:text-foreground">
+            <Link href="/about#contact" className="text-sm text-muted hover:text-foreground">
               Terms
             </Link>
           </div>

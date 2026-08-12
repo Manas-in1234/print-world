@@ -1,6 +1,7 @@
 import { aiFeatures } from "@/data/ai-features";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Button } from "@/components/ui/Button";
 import { AIStudioForm } from "@/components/home/AIStudioForm";
 
 const iconMap = {
@@ -38,6 +39,11 @@ export function AIStudioSection() {
           description="Powerful AI tools to accelerate your creative process. Design logos, artwork, and products with intelligent assistance."
         />
         <AIStudioForm />
+        <div className="mt-10 text-center">
+          <Button href="/ai-studio" size="lg">
+            Open AI Studio
+          </Button>
+        </div>
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
           {aiFeatures.map((feature) => (
             <article key={feature.id} className="group relative overflow-hidden rounded-2xl border border-card-border bg-card p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-soft-hover sm:p-8">

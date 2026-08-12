@@ -2,7 +2,7 @@ import type { ProductPlaceholder } from "@/types/product";
 import type { ProductImageSource } from "@/lib/images/product-image";
 import { ProductMockup } from "@/components/products/ProductMockup";
 import { ClockPreview } from "@/components/products/ClockPreview";
-import Image from "next/image";
+import { ProductPreviewImage } from "@/components/products/ProductPreviewImage";
 import { cn } from "@/lib/cn";
 
 interface ProductPreviewProps {
@@ -26,27 +26,25 @@ export function ProductPreview({
 
   if (source.type === "storage" && source.storageUrl) {
     return (
-      <Image
+      <ProductPreviewImage
         src={source.storageUrl}
         alt={source.alt}
-        fill
-        className={cn("object-cover", className)}
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className={className}
         priority={priority}
+        objectFit="cover"
       />
     );
   }
 
   if (source.type === "local" && source.localUrl) {
     return (
-      <Image
+      <ProductPreviewImage
         src={source.localUrl}
+        fallbackSrc={source.fallbackUrl}
         alt={source.alt}
-        fill
-        className={cn("object-contain p-4", className)}
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className={className}
         priority={priority}
-        unoptimized={source.localUrl.endsWith(".svg")}
+        objectFit="cover"
       />
     );
   }

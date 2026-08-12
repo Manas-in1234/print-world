@@ -15,11 +15,11 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Print World — Premium Custom Printing & AI Design",
+  title: "Print World — Personalized Printing & Custom Products",
   description:
-    "Premium personalized printing, custom products, and AI-powered design.",
+    "Premium personalized printing, custom products, and AI-powered design. Turn your ideas into something real.",
   openGraph: {
-    title: "Print World — Premium Custom Printing & AI Design",
+    title: "Print World — Personalized Printing & Custom Products",
     description:
       "Premium personalized printing, custom products, and AI-powered design.",
     type: "website",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Print World — Premium Custom Printing & AI Design",
+    title: "Print World — Personalized Printing & Custom Products",
     description:
       "Premium personalized printing, custom products, and AI-powered design.",
   },
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${cormorant.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col overflow-x-hidden bg-background text-foreground">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-foreground focus:px-4 focus:py-2 focus:text-background"

@@ -4,7 +4,7 @@ export const megaMenus: MegaMenuGroup[] = [
   {
     key: "products",
     label: "Products",
-    href: "#products",
+    href: "/products",
     items: [
       { label: "T-Shirts", href: "/products/custom-t-shirt", description: "Premium custom apparel" },
       { label: "Acrylic Frames", href: "/products/acrylic-photo-frame", description: "Crystal-clear displays" },
@@ -17,13 +17,13 @@ export const megaMenus: MegaMenuGroup[] = [
   {
     key: "services",
     label: "Services",
-    href: "#services",
+    href: "/services",
     items: [
-      { label: "Custom Printing", href: "#services", description: "Tailored print solutions" },
-      { label: "Photo Printing", href: "#services", description: "Gallery-quality photos" },
-      { label: "Business Printing", href: "#services", description: "Corporate materials" },
-      { label: "Personalized Gifts", href: "#services", description: "Thoughtful keepsakes" },
-      { label: "Bulk Printing", href: "#services", description: "Volume orders & pricing" },
+      { label: "Custom Printing", href: "/services#custom-printing", description: "Tailored print solutions" },
+      { label: "Photo Printing", href: "/services#photo-printing", description: "Gallery-quality photos" },
+      { label: "Business Printing", href: "/services#business-printing", description: "Corporate materials" },
+      { label: "Personalized Gifts", href: "/services#personalized-gifts", description: "Thoughtful keepsakes" },
+      { label: "Bulk Printing", href: "/services#bulk-printing", description: "Volume orders & pricing" },
     ],
   },
   {
@@ -40,7 +40,7 @@ export const megaMenus: MegaMenuGroup[] = [
 ];
 
 export const simpleNavLinks = [
-  { label: "Business", href: "#products" },
-  { label: "Inspiration", href: "#acrylic" },
-  { label: "About", href: "#about" },
+  { label: "Business", href: "/business" },
+  { label: "Inspiration", href: "/inspiration" },
+  { label: "About", href: "/about" },
 ];

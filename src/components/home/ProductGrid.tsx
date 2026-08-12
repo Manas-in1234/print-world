@@ -15,18 +15,18 @@ export function ProductGrid({ id, products, error }: ProductGridProps) {
     <section id={id} className="py-16 sm:py-20">
       <Container>
         <SectionHeading
-          eyebrow="Our Collection"
-          title="Our Products"
-          description="Premium product lines, each crafted for personalization and lasting quality."
+          eyebrow="Featured"
+          title="Featured Products"
+          description="Hand-picked favorites from our premium catalog — customize any product to make it yours."
         />
 
         {error ? (
-          <p className="text-center text-red-600 text-sm" role="alert">
-            Could not load products: {error}
+          <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-center text-sm text-amber-900" role="alert">
+            Could not load featured products. Please try again shortly.
           </p>
         ) : products.length === 0 ? (
           <p className="text-center text-muted">
-            Products will appear here once Supabase is connected and seeded.
+            Featured products will appear here once the catalog is available.
           </p>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

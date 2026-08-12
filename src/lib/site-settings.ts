@@ -1,5 +1,6 @@
 import { cache } from "react";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { validateCatalogEnv } from "@/lib/catalog/catalog-client";
 
 export interface HeroSettings {
   headline?: string;
@@ -11,14 +12,20 @@ export interface ShippingSettings {
   freeThreshold?: number;
 }
 
+const DEFAULTS = {
+  hero: {} as HeroSettings,
+  featuredSlugs: [] as string[],
+  shipping: { flatRate: 99, freeThreshold: 999 } as ShippingSettings,
+};
+
 export const getSiteSettings = cache(async function getSiteSettings() {
-  const supabase = await createClient();
+  if (!validateCatalogEnv().ok) {
+    return DEFAULTS;
+  }
+
+  const supabase = createAdminClient();
   if (!supabase) {
-    return {
-      hero: {} as HeroSettings,
-      featuredSlugs: [] as string[],
-      shipping: { flatRate: 99, freeThreshold: 999 } as ShippingSettings,
-    };
+    return DEFAULTS;
   }
 
   const { data } = await supabase.from("site_settings").select("key, value");

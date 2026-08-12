@@ -16,17 +16,24 @@ export const valueProps: ValueProp[] = [
     icon: "customize",
   },
   {
-    id: "delivery",
-    title: "Fast Delivery",
-    description:
-      "Quick turnaround on every order, with careful packaging to ensure your creations arrive in perfect condition.",
-    icon: "delivery",
-  },
-  {
     id: "secure",
     title: "Secure Checkout",
     description:
       "Shop with confidence using encrypted payments and transparent order tracking from start to finish.",
     icon: "secure",
+  },
+  {
+    id: "delivery",
+    title: "Fast Production",
+    description:
+      "Quick turnaround on every order, with careful packaging to ensure your creations arrive in perfect condition.",
+    icon: "delivery",
+  },
+  {
+    id: "designed",
+    title: "Designed For You",
+    description:
+      "Every product is made to reflect your vision — from one-of-a-kind gifts to professional brand materials.",
+    icon: "designed",
   },
 ];

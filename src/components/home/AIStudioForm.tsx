@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 
-const AI_NOT_CONFIGURED =
-  "AI is not configured yet. Add OPENAI_API_KEY to enable AI generation.";
+const AI_NOT_CONFIGURED = "AI Studio is currently being configured.";
 
 export function AIStudioForm() {
   const [prompt, setPrompt] = useState("");

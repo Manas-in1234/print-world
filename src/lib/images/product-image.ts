@@ -1,9 +1,16 @@
 import type { ProductPlaceholder } from "@/types/product";
 
-/**
- * Stable local product sample images — work on Vercel without external URLs.
- */
+/** Local product photography — JPG preferred, SVG fallback. */
 export const PRODUCT_SAMPLE_IMAGES: Record<string, string> = {
+  "custom-t-shirt": "/product-assets/custom-t-shirt.jpg",
+  "acrylic-photo-frame": "/product-assets/acrylic-photo-frame.jpg",
+  "custom-mug": "/product-assets/custom-mug.jpg",
+  "business-card": "/product-assets/business-card.jpg",
+  "custom-poster": "/product-assets/custom-poster.jpg",
+  "custom-clock": "/product-assets/custom-clock.jpg",
+};
+
+export const PRODUCT_SAMPLE_FALLBACKS: Record<string, string> = {
   "custom-t-shirt": "/product-assets/custom-t-shirt.svg",
   "acrylic-photo-frame": "/product-assets/acrylic-photo-frame.svg",
   "custom-mug": "/product-assets/custom-mug.svg",
@@ -11,6 +18,8 @@ export const PRODUCT_SAMPLE_IMAGES: Record<string, string> = {
   "custom-poster": "/product-assets/custom-poster.svg",
   "custom-clock": "/product-assets/custom-clock.svg",
 };
+
+export const HERO_PRODUCT_IMAGE = "/product-assets/hero-products.jpg";
 
 const PLACEHOLDER_TO_SLUG: Record<ProductPlaceholder, string> = {
   tshirt: "custom-t-shirt",
@@ -26,6 +35,7 @@ export interface ProductImageSource {
   mockupKey?: ProductPlaceholder;
   storageUrl?: string;
   localUrl?: string;
+  fallbackUrl?: string;
   alt: string;
 }
 
@@ -33,11 +43,18 @@ export function getLocalProductImage(slug: string): string | null {
   return PRODUCT_SAMPLE_IMAGES[slug] ?? null;
 }
 
-export function getLocalImageByPlaceholder(key: ProductPlaceholder): string {
-  const slug = PLACEHOLDER_TO_SLUG[key] ?? "custom-poster";
-  return PRODUCT_SAMPLE_IMAGES[slug] ?? "/product-assets/custom-poster.svg";
+export function getLocalFallbackImage(slug: string): string | null {
+  return PRODUCT_SAMPLE_FALLBACKS[slug] ?? null;
 }
 
+export function getLocalImageByPlaceholder(key: ProductPlaceholder): string {
+  const slug = PLACEHOLDER_TO_SLUG[key] ?? "custom-poster";
+  return PRODUCT_SAMPLE_IMAGES[slug] ?? "/product-assets/custom-poster.jpg";
+}
+
+/**
+ * Priority: Supabase storage URL → local JPG → SVG fallback → CSS mockup component.
+ */
 export function resolveProductImage(
   imageKey: ProductPlaceholder | null,
   storageUrl?: string | null,
@@ -51,8 +68,9 @@ export function resolveProductImage(
   const slug = productSlug ?? (imageKey ? PLACEHOLDER_TO_SLUG[imageKey] : null);
   if (slug) {
     const localUrl = getLocalProductImage(slug);
+    const fallbackUrl = getLocalFallbackImage(slug) ?? undefined;
     if (localUrl) {
-      return { type: "local", localUrl, alt };
+      return { type: "local", localUrl, fallbackUrl, alt };
     }
   }
 
@@ -67,7 +85,6 @@ function isStorageUrl(url: string): boolean {
   return url.startsWith("http") && !url.startsWith("/product-assets/");
 }
 
-/** For customer uploads — preserve original, serve AVIF preview */
 export interface CustomerUploadImage {
   originalUrl: string;
   previewAvifUrl: string;
