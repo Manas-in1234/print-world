@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
-import { getSupabaseEnv } from "@/lib/supabase/env";
+import { SUPABASE_NOT_CONFIGURED_MESSAGE } from "@/lib/supabase/env";
 import {
   mapProductRow,
   mapShapeRow,
@@ -97,21 +97,12 @@ function sortProducts(
 export const getProducts = cache(async function getProducts(
   options: ProductQueryOptions = {},
 ): Promise<CatalogQueryResult<CatalogProduct[]>> {
-  const { isConfigured } = getSupabaseEnv();
-  if (!isConfigured) {
-    return {
-      data: [],
-      error: "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.",
-      configured: false,
-    };
-  }
-
   const supabase = await createClient();
   if (!supabase) {
     return {
       data: [],
-      error: "Could not create Supabase server client.",
-      configured: true,
+      error: SUPABASE_NOT_CONFIGURED_MESSAGE,
+      configured: false,
     };
   }
 
@@ -207,14 +198,9 @@ export const getProductSlugs = cache(async function getProductSlugs(): Promise<s
 });
 
 export const getCategories = cache(async function getCategories(): Promise<CatalogQueryResult<DbCategory[]>> {
-  const { isConfigured } = getSupabaseEnv();
-  if (!isConfigured) {
-    return { data: [], error: null, configured: false };
-  }
-
   const supabase = await createClient();
   if (!supabase) {
-    return { data: [], error: "Could not create Supabase server client.", configured: true };
+    return { data: [], error: null, configured: false };
   }
 
   const { data, error } = await supabase

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClientIfConfigured } from "@/lib/supabase/client";
+import { SUPABASE_NOT_CONFIGURED_MESSAGE } from "@/lib/supabase/env";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
@@ -24,7 +25,7 @@ export default function SignupPage() {
 
     const supabase = createClientIfConfigured();
     if (!supabase) {
-      setError("Supabase is not configured. Add your environment variables.");
+      setError(SUPABASE_NOT_CONFIGURED_MESSAGE);
       setLoading(false);
       return;
     }

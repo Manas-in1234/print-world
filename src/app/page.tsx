@@ -11,6 +11,8 @@ import { DesignSteps } from "@/components/home/DesignSteps";
 import { FeatureSection } from "@/components/home/FeatureSection";
 import { getHomepageData } from "@/lib/catalog/homepage-data";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const { hero, products, productsError, shapes } = await getHomepageData();
 

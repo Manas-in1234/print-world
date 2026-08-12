@@ -4,9 +4,9 @@ import { getServiceRoleKey, getSupabaseEnv } from "@/lib/supabase/env";
 
 /** Server-only admin client — never import in client components. */
 export function createAdminClient() {
-  const { url } = getSupabaseEnv();
+  const { url, isConfigured } = getSupabaseEnv();
   const serviceKey = getServiceRoleKey();
-  if (!url || !serviceKey) return null;
+  if (!isConfigured || !url || !serviceKey) return null;
   return createClient<Database>(url, serviceKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });

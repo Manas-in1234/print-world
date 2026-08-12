@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import type { Database } from "@/types/database";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -8,10 +9,9 @@ export async function GET(request: Request) {
   const next = searchParams.get("next") ?? "/account";
 
   if (code) {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const { url, anonKey, isConfigured } = getSupabaseEnv();
 
-    if (url && anonKey) {
+    if (isConfigured && url && anonKey) {
       const supabaseResponse = NextResponse.redirect(`${origin}${next}`);
 
       const supabase = createServerClient<Database>(url, anonKey, {

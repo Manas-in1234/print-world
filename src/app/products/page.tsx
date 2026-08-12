@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductCatalog } from "@/components/products/ProductCatalog";
 import { getProducts, getCategories } from "@/lib/catalog/products";
+import { SUPABASE_NOT_CONFIGURED_MESSAGE } from "@/lib/supabase/env";
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +30,7 @@ export default async function ProductsPage() {
           />
           {!productsResult.configured && (
             <p className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-              Supabase is not configured. Add your project URL and publishable key to `.env.local`.
+              {SUPABASE_NOT_CONFIGURED_MESSAGE} Redeploy after adding variables in Vercel.
             </p>
           )}
           {queryError && (
