@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Geist } from "next/font/google";
 import { CartProvider } from "@/lib/cart/cart-context";
+import { PRINT_WORLD_LOGO } from "@/components/brand/PrintWorldLogo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,6 +19,10 @@ export const metadata: Metadata = {
   title: "Print World — Personalized Printing & Custom Products",
   description:
     "Premium personalized printing, custom products, and AI-powered design. Turn your ideas into something real.",
+  icons: {
+    icon: [{ url: PRINT_WORLD_LOGO, type: "image/jpeg" }],
+    apple: [{ url: PRINT_WORLD_LOGO, type: "image/jpeg" }],
+  },
   openGraph: {
     title: "Print World — Personalized Printing & Custom Products",
     description:

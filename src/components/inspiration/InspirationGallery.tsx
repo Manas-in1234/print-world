@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { MarketingImage } from "@/components/ui/MarketingImage";
 import { inspirationItems, inspirationCategories } from "@/data/inspiration";
 
 export function InspirationGallery() {
@@ -31,7 +31,7 @@ export function InspirationGallery() {
 
       <section className="py-12 sm:py-16">
         <Container>
-          <div className="mb-8 flex flex-wrap gap-2" role="tablist" aria-label="Filter inspiration by category">
+          <div className="mb-8 flex gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:overflow-visible" role="tablist" aria-label="Filter inspiration by category">
             {inspirationCategories.map((cat) => (
               <button
                 key={cat}
@@ -39,7 +39,7 @@ export function InspirationGallery() {
                 role="tab"
                 aria-selected={filter === cat}
                 onClick={() => setFilter(cat)}
-                className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
+                className={`shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-all ${
                   filter === cat
                     ? "border-foreground bg-foreground text-background"
                     : "border-card-border bg-card text-foreground hover:border-accent"
@@ -58,11 +58,9 @@ export function InspirationGallery() {
               >
                 <Link href={item.href} className="block">
                   <div className="relative aspect-square overflow-hidden bg-surface">
-                    <Image
+                    <MarketingImage
                       src={item.image}
                       alt={item.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 640px) 50vw, 33vw"
                     />
                   </div>

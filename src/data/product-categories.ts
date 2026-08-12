@@ -1,53 +1,65 @@
-/** Six main product categories — links to real product pages. */
-export interface ProductCategory {
+import type { CatalogProduct } from "@/lib/catalog/mappers";
+import {
+  productLandingPages,
+  getLandingPageByProductSlug,
+  type ProductLandingConfig,
+} from "@/data/landing-pages";
+import {
+  resolveLandingImage,
+  slugToPlaceholder,
+  type ResolvedLandingImage,
+} from "@/lib/images/resolve-landing-image";
+
+export interface LandingCategoryCard {
   slug: string;
   name: string;
   description: string;
-  image: string;
   href: string;
+  /** @deprecated Prefer resolvedImage — kept for simple consumers */
+  imageUrl: string;
+  resolvedImage: ResolvedLandingImage;
+  startingPrice: number;
+  currency: "INR";
 }
 
-export const productCategories: ProductCategory[] = [
-  {
-    slug: "custom-t-shirt",
-    name: "Custom T-Shirts",
-    description: "Premium cotton tees with vibrant, long-lasting custom prints.",
-    image: "/product-assets/custom-t-shirt.jpg",
-    href: "/products/custom-t-shirt",
-  },
-  {
-    slug: "acrylic-photo-frame",
-    name: "Acrylic Photo Frames",
-    description: "Crystal-clear acrylic displays for your favorite memories.",
-    image: "/product-assets/acrylic-photo-frame.jpg",
-    href: "/products/acrylic-photo-frame",
-  },
-  {
-    slug: "custom-mug",
-    name: "Custom Mugs",
-    description: "Ceramic mugs with rich, dishwasher-safe personalized prints.",
-    image: "/product-assets/custom-mug.jpg",
-    href: "/products/custom-mug",
-  },
-  {
-    slug: "business-card",
-    name: "Business Cards",
-    description: "Premium cardstock with sharp typography and professional finishes.",
-    image: "/product-assets/business-card.jpg",
-    href: "/products/business-card",
-  },
-  {
-    slug: "custom-poster",
-    name: "Custom Posters",
-    description: "Museum-quality prints on premium paper with vivid color.",
-    image: "/product-assets/custom-poster.jpg",
-    href: "/products/custom-poster",
-  },
-  {
-    slug: "custom-clock",
-    name: "Custom Clocks",
-    description: "Personalized wall clocks in multiple premium shapes.",
-    image: "/product-assets/custom-clock.jpg",
-    href: "/products/custom-clock",
-  },
-];
+/** Build homepage/landing category cards from catalog + centralized config. */
+export function buildLandingCategoryCards(
+  products: CatalogProduct[],
+): LandingCategoryCard[] {
+  const bySlug = new Map(products.map((p) => [p.slug, p]));
+
+  return productLandingPages.map((landing) => {
+    const product = bySlug.get(landing.productSlug);
+    const name = product?.name ?? landing.title;
+    const imageKey = product?.imageKey ?? slugToPlaceholder(landing.productSlug);
+    const resolved = resolveLandingImage(
+      landing.productSlug,
+      imageKey,
+      product?.images[0]?.url,
+      name,
+    );
+
+    const imageUrl =
+      (resolved.mode === "storage" && resolved.storageUrl) ||
+      resolved.localImageUrl ||
+      `/product-assets/${landing.assetKey}.jpg`;
+
+    return {
+      slug: landing.productSlug,
+      name,
+      description: product?.shortDescription ?? landing.description,
+      href: landing.route,
+      imageUrl,
+      resolvedImage: resolved,
+      startingPrice: product?.startingPrice ?? landing.fallbackStartingPrice,
+      currency: "INR" as const,
+    };
+  });
+}
+
+export function getLandingConfigForProduct(slug: string): ProductLandingConfig | undefined {
+  return getLandingPageByProductSlug(slug);
+}
+
+/** @deprecated Use productLandingPages from landing-pages.ts */
+export { productLandingPages as productCategories };

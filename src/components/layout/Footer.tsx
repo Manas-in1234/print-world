@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { PrintWorldLogo } from "@/components/brand/PrintWorldLogo";
 import { footerColumns, socialLinks } from "@/data/footer-links";
 
 export function Footer() {
@@ -8,12 +9,7 @@ export function Footer() {
       <Container className="py-16">
         <div className="mb-12 flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <Link
-              href="/"
-              className="font-display text-xl font-semibold tracking-[0.15em] text-foreground"
-            >
-              PRINT WORLD
-            </Link>
+            <PrintWorldLogo variant="footer" linked />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">
               Premium personalized printing and AI-powered design. Turn your ideas
               into something real.

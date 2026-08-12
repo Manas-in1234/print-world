@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getProducts } from "@/lib/catalog/products";
+import { getAllLandingRoutes } from "@/data/landing-pages";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://printworld.example.com";
@@ -8,6 +9,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: baseUrl, changeFrequency: "weekly", priority: 1 },
     { url: `${baseUrl}/products`, changeFrequency: "weekly", priority: 0.9 },
+    ...getAllLandingRoutes().map((route) => ({
+      url: `${baseUrl}${route}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.85,
+    })),
     { url: `${baseUrl}/services`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/business`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/inspiration`, changeFrequency: "weekly", priority: 0.8 },

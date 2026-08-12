@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/Container";
 import { DesignEditor } from "@/components/editor/DesignEditor";
 import type { DesignState } from "@/lib/editor/types";
 import { normalizeShapeSlug } from "@/lib/catalog/shape-utils";
+import { getProductDisplayShapes } from "@/lib/catalog/clock-shape-catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,11 @@ interface CustomizePageProps {
   searchParams: Promise<{ shape?: string; designId?: string; aiImage?: string }>;
 }
 
-export default async function CustomizePage({ params, searchParams }: CustomizePageProps) {
+export default function CustomizePage(props: CustomizePageProps) {
+  return <CustomizePageContent {...props} />;
+}
+
+async function CustomizePageContent({ params, searchParams }: CustomizePageProps) {
   const { productSlug } = await params;
   const { shape, designId, aiImage } = await searchParams;
   const product = await getProductBySlug(productSlug);
@@ -24,9 +29,10 @@ export default async function CustomizePage({ params, searchParams }: CustomizeP
 
   if (!product || !config) notFound();
 
-  const editorShapes = product.shapes.filter(
-    (s) => s.shapeType === "acrylic" || s.shapeType === "clock",
-  );
+  const editorShapes =
+    product.slug === "custom-clock"
+      ? getProductDisplayShapes(product.slug, product.shapes, product.id, product.startingPrice)
+      : product.shapes.filter((s) => s.shapeType === "acrylic");
 
   let initialDesign: DesignState | undefined;
   if (designId) {

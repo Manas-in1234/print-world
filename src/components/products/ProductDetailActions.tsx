@@ -2,32 +2,29 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { CatalogProduct } from "@/lib/catalog/mappers";
+import type { CatalogProduct, CatalogShape } from "@/lib/catalog/mappers";
 import { Button } from "@/components/ui/Button";
 import { useCart } from "@/lib/cart/cart-context";
 import { formatPrice } from "@/lib/format-price";
 
 interface ProductDetailActionsProps {
   product: CatalogProduct;
-  initialShapeSlug?: string;
+  selectedShapeId?: string;
+  selectableShapes?: CatalogShape[];
 }
 
 export function ProductDetailActions({
   product,
-  initialShapeSlug,
+  selectedShapeId = "",
+  selectableShapes,
 }: ProductDetailActionsProps) {
   const router = useRouter();
   const { addItem } = useCart();
+
   const [quantity, setQuantity] = useState(1);
   const [selectedVariantId, setSelectedVariantId] = useState(
     product.variants[0]?.id ?? "",
   );
-  const [selectedShapeId, setSelectedShapeId] = useState(() => {
-    if (initialShapeSlug) {
-      return product.shapes.find((s) => s.slug === initialShapeSlug)?.id ?? "";
-    }
-    return product.shapes[0]?.id ?? "";
-  });
   const [added, setAdded] = useState(false);
 
   const sizeVariants = product.variants.filter((v) => v.variantType === "size");
@@ -35,8 +32,9 @@ export function ProductDetailActions({
     (v) => v.variantType === "material",
   );
 
+  const shapeOptions = selectableShapes ?? product.shapes;
   const selectedVariant = product.variants.find((v) => v.id === selectedVariantId);
-  const selectedShape = product.shapes.find((s) => s.id === selectedShapeId);
+  const selectedShape = shapeOptions.find((s) => s.id === selectedShapeId);
 
   const unitPrice = useMemo(() => {
     if (selectedVariant) return selectedVariant.price;
@@ -51,7 +49,7 @@ export function ProductDetailActions({
       productName: product.name,
       variantId: selectedVariant?.id,
       variantName: selectedVariant?.name,
-      shapeId: selectedShape?.id,
+      shapeId: selectedShape?.id.startsWith("local-") ? undefined : selectedShape?.id,
       shapeName: selectedShape?.name,
       imageKey: product.imageKey,
       quantity,
@@ -111,28 +109,6 @@ export function ProductDetailActions({
         </div>
       )}
 
-      {product.shapes.length > 0 && (
-        <div>
-          <p className="mb-2 text-sm font-medium text-foreground">Shape</p>
-          <div className="flex flex-wrap gap-2">
-            {product.shapes.map((s) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => setSelectedShapeId(s.id)}
-                className={`rounded-full border px-4 py-2 text-sm transition-all ${
-                  selectedShapeId === s.id
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-card-border bg-card text-foreground hover:border-accent"
-                }`}
-              >
-                {s.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div>
         <label htmlFor="quantity" className="mb-2 block text-sm font-medium text-foreground">
           Quantity
@@ -185,11 +161,7 @@ export function ProductDetailActions({
       {added && (
         <p className="text-sm text-accent" role="status">
           Added to cart!{" "}
-          <button
-            type="button"
-            className="underline"
-            onClick={() => router.push("/cart")}
-          >
+          <button type="button" className="underline" onClick={() => router.push("/cart")}>
             View cart
           </button>
         </p>

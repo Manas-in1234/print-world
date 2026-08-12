@@ -1,16 +1,13 @@
 import type { FooterColumn } from "@/types/navigation";
+import { productLandingPages } from "@/data/landing-pages";
 
 export const footerColumns: FooterColumn[] = [
   {
     title: "Products",
-    links: [
-      { label: "Custom T-Shirts", href: "/products/custom-t-shirt" },
-      { label: "Acrylic Frames", href: "/products/acrylic-photo-frame" },
-      { label: "Custom Mugs", href: "/products/custom-mug" },
-      { label: "Business Cards", href: "/products/business-card" },
-      { label: "Posters", href: "/products/custom-poster" },
-      { label: "Custom Clocks", href: "/products/custom-clock" },
-    ],
+    links: productLandingPages.map((p) => ({
+      label: p.title,
+      href: p.route,
+    })),
   },
   {
     title: "Services",

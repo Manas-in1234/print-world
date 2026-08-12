@@ -6,7 +6,9 @@ import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { MarketingImage } from "@/components/ui/MarketingImage";
 import { aiFeatures } from "@/data/ai-features";
+import { pageHeroImages } from "@/data/page-heroes";
 
 type AiType = "logo" | "artwork" | "tshirt" | "assistant";
 
@@ -89,13 +91,31 @@ export function AIStudioClient({ isConfigured }: AIStudioClientProps) {
   return (
     <>
       <Navbar />
-      <main id="main-content" className="flex-1 py-12 sm:py-16">
-        <Container>
-          <SectionHeading
-            eyebrow="AI Studio"
-            title="AI Design Studio"
-            description="Generate logos, artwork, and design guidance powered by AI — then use your creations in the customization editor."
-          />
+      <main id="main-content" className="flex-1 overflow-x-hidden">
+        <section className="border-b border-card-border bg-surface/40 py-12 sm:py-16">
+          <Container>
+            <div className="grid items-center gap-10 lg:grid-cols-2">
+              <SectionHeading
+                eyebrow="AI Studio"
+                title="AI Design Studio"
+                description="Generate logos, artwork, and design guidance powered by AI — then use your creations in the customization editor."
+                align="left"
+                className="mb-0"
+              />
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-card-border shadow-soft">
+                <MarketingImage
+                  src={pageHeroImages["ai-studio"].primaryImage}
+                  fallbackSrc={pageHeroImages["ai-studio"].fallbackImages[0]}
+                  alt={pageHeroImages["ai-studio"].alt}
+                  priority
+                  sizes="50vw"
+                />
+              </div>
+            </div>
+          </Container>
+        </section>
+
+        <Container className="py-12 sm:py-16">
 
           {!isConfigured && (
             <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900" role="status">
@@ -177,6 +197,14 @@ export function AIStudioClient({ isConfigured }: AIStudioClientProps) {
                 <p className="mt-2 text-sm text-muted">{f.description}</p>
               </article>
             ))}
+          </div>
+
+          <div className="mt-12 rounded-3xl border border-card-border bg-gradient-to-br from-surface to-card px-6 py-10 text-center shadow-soft">
+            <h2 className="font-display text-2xl font-semibold text-foreground">Ready to create?</h2>
+            <p className="mx-auto mt-3 max-w-lg text-sm text-muted">Use AI-generated artwork in our customization editor on any product.</p>
+            <Button href="/customize/custom-t-shirt" size="lg" className="mt-6">
+              Start Designing
+            </Button>
           </div>
         </Container>
       </main>

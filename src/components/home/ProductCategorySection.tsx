@@ -1,11 +1,16 @@
 import Link from "next/link";
-import Image from "next/image";
-import { productCategories } from "@/data/product-categories";
+import type { LandingCategoryCard } from "@/data/product-categories";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { LandingProductImage } from "@/components/landing/LandingProductImage";
+import { formatPrice } from "@/lib/format-price";
 
-export function ProductCategorySection() {
+interface ProductCategorySectionProps {
+  categories: LandingCategoryCard[];
+}
+
+export function ProductCategorySection({ categories }: ProductCategorySectionProps) {
   return (
     <section id="categories" className="py-16 sm:py-20">
       <Container>
@@ -15,18 +20,15 @@ export function ProductCategorySection() {
         />
 
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {productCategories.map((category) => (
+          {categories.map((category) => (
             <Link
               key={category.slug}
               href={category.href}
               className="group overflow-hidden rounded-2xl border border-card-border bg-card shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 hover:shadow-soft-hover"
             >
               <div className="relative aspect-[4/3] overflow-hidden bg-surface">
-                <Image
-                  src={category.image}
-                  alt={category.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                <LandingProductImage
+                  resolved={category.resolvedImage}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
@@ -37,7 +39,10 @@ export function ProductCategorySection() {
                 <p className="mt-2 text-sm leading-relaxed text-muted">
                   {category.description}
                 </p>
-                <span className="mt-4 inline-block text-sm font-medium text-accent group-hover:underline">
+                <p className="mt-2 text-sm font-medium text-foreground">
+                  From {formatPrice(category.startingPrice, category.currency)}
+                </p>
+                <span className="mt-3 inline-block text-sm font-medium text-accent group-hover:underline">
                   Shop now →
                 </span>
               </div>

@@ -1,7 +1,37 @@
 import type { ProductPlaceholder } from "@/types/product";
 
-/** Local product photography — JPG preferred, SVG fallback. */
-export const PRODUCT_SAMPLE_IMAGES: Record<string, string> = {
+/**
+ * Canonical local asset filenames — place images at:
+ *   public/product-assets/tshirt.jpg
+ *   public/product-assets/acrylic-frame.jpg
+ *   public/product-assets/mug.jpg
+ *   public/product-assets/business-card.jpg
+ *   public/product-assets/poster.jpg
+ *   public/product-assets/clock.jpg
+ */
+export const LANDING_ASSET_FILES = {
+  tshirt: "tshirt.jpg",
+  "acrylic-frame": "acrylic-frame.jpg",
+  mug: "mug.jpg",
+  "business-card": "business-card.jpg",
+  poster: "poster.jpg",
+  clock: "clock.jpg",
+} as const;
+
+export type LandingAssetKey = keyof typeof LANDING_ASSET_FILES;
+
+/** Supabase product slug → canonical asset key */
+export const SLUG_TO_ASSET_KEY: Record<string, LandingAssetKey> = {
+  "custom-t-shirt": "tshirt",
+  "acrylic-photo-frame": "acrylic-frame",
+  "custom-mug": "mug",
+  "business-card": "business-card",
+  "custom-poster": "poster",
+  "custom-clock": "clock",
+};
+
+/** Legacy filenames (kept for backward compatibility) */
+const LEGACY_JPG_BY_SLUG: Record<string, string> = {
   "custom-t-shirt": "/product-assets/custom-t-shirt.jpg",
   "acrylic-photo-frame": "/product-assets/acrylic-photo-frame.jpg",
   "custom-mug": "/product-assets/custom-mug.jpg",
@@ -39,8 +69,30 @@ export interface ProductImageSource {
   alt: string;
 }
 
+/** Canonical local path — flat JPG at /product-assets/{key}.jpg */
+export function getCanonicalLocalImage(slug: string): string | null {
+  const key = SLUG_TO_ASSET_KEY[slug];
+  if (!key) return null;
+  return `/product-assets/${LANDING_ASSET_FILES[key]}`;
+}
+
+/** Folder-based main image for shape products (optional user-placed). */
+export function getFolderMainImage(slug: string): string | null {
+  const key = SLUG_TO_ASSET_KEY[slug];
+  if (!key) return null;
+  return `/product-assets/${key}/main.jpg`;
+}
+
+export function getLegacyLocalImage(slug: string): string | null {
+  return LEGACY_JPG_BY_SLUG[slug] ?? null;
+}
+
 export function getLocalProductImage(slug: string): string | null {
-  return PRODUCT_SAMPLE_IMAGES[slug] ?? null;
+  const canonical = getCanonicalLocalImage(slug);
+  if (canonical) return canonical;
+  const folderMain = getFolderMainImage(slug);
+  if (folderMain) return folderMain;
+  return getLegacyLocalImage(slug);
 }
 
 export function getLocalFallbackImage(slug: string): string | null {
@@ -49,11 +101,16 @@ export function getLocalFallbackImage(slug: string): string | null {
 
 export function getLocalImageByPlaceholder(key: ProductPlaceholder): string {
   const slug = PLACEHOLDER_TO_SLUG[key] ?? "custom-poster";
-  return PRODUCT_SAMPLE_IMAGES[slug] ?? "/product-assets/custom-poster.jpg";
+  return getLocalProductImage(slug) ?? "/product-assets/poster.jpg";
 }
 
+/** @deprecated Use getLocalProductImage — kept for imports */
+export const PRODUCT_SAMPLE_IMAGES: Record<string, string> = Object.fromEntries(
+  Object.keys(SLUG_TO_ASSET_KEY).map((slug) => [slug, getLocalProductImage(slug)!]),
+);
+
 /**
- * Priority: Supabase storage URL → local JPG → SVG fallback → CSS mockup component.
+ * Priority: Supabase storage URL → canonical local JPG → legacy JPG → SVG → CSS mockup.
  */
 export function resolveProductImage(
   imageKey: ProductPlaceholder | null,
@@ -68,7 +125,11 @@ export function resolveProductImage(
   const slug = productSlug ?? (imageKey ? PLACEHOLDER_TO_SLUG[imageKey] : null);
   if (slug) {
     const localUrl = getLocalProductImage(slug);
-    const fallbackUrl = getLocalFallbackImage(slug) ?? undefined;
+    const fallbackUrl =
+      getFolderMainImage(slug) ??
+      getLegacyLocalImage(slug) ??
+      getLocalFallbackImage(slug) ??
+      undefined;
     if (localUrl) {
       return { type: "local", localUrl, fallbackUrl, alt };
     }

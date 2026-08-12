@@ -1,40 +1,47 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { MarketingLayout } from "@/components/layout/MarketingLayout";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { MarketingImage } from "@/components/ui/MarketingImage";
+import { pageHeroImages } from "@/data/page-heroes";
 
 export const metadata: Metadata = {
-  title: "About Us — Print World",
+  title: "About Print World | Print World",
   description:
     "Learn about Print World — our mission, quality standards, personalization philosophy, and vision for AI-powered custom printing.",
 };
 
 const storySections = [
   {
-    title: "Our Mission",
-    body: "Print World exists to make premium personalized printing accessible to everyone — from first-time creators to established brands. We believe every idea deserves to become something real.",
+    title: "Our Story",
+    body: "Print World began with a simple belief: everyone should be able to turn ideas into beautiful, tangible products without complexity or compromise.",
   },
   {
-    title: "Personalization Philosophy",
+    title: "Our Mission",
+    body: "We make premium personalized printing accessible to everyone — from first-time creators to established brands. Every idea deserves to become something real.",
+  },
+  {
+    title: "Personalization",
     body: "True personalization goes beyond adding a name. Our tools let you upload, edit, preview, and refine until every product reflects your exact vision.",
   },
   {
-    title: "Quality Standards",
+    title: "Quality",
     body: "We use professional-grade materials and printing processes so your products look exceptional and last. Every order is produced with care.",
   },
   {
-    title: "Technology & AI",
+    title: "Technology & AI Vision",
     body: "Our AI Studio accelerates creativity with logo design, artwork generation, and intelligent design guidance — always under your control.",
   },
   {
-    title: "Future Vision",
-    body: "We're building the most intuitive personalized printing platform — expanding products, improving tools, and making custom creation effortless worldwide.",
+    title: "Why Print World",
+    body: "Premium products, intuitive tools, secure checkout, and real support — all in one platform built for creators and businesses alike.",
   },
 ];
 
 export default function AboutPage() {
+  const hero = pageHeroImages.about;
+
   return (
     <MarketingLayout>
       <section className="border-b border-card-border bg-surface/40 py-16 sm:py-20">
@@ -54,13 +61,12 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-card-border shadow-soft">
-              <Image
-                src="/product-assets/hero-products.jpg"
-                alt="Print World personalized printing products"
-                fill
-                className="object-cover"
-                sizes="50vw"
+              <MarketingImage
+                src={hero.primaryImage}
+                fallbackSrc={hero.fallbackImages[0]}
+                alt={hero.alt}
                 priority
+                sizes="50vw"
               />
             </div>
           </div>

@@ -6,6 +6,7 @@ export interface HomepageData {
   hero: { headline?: string; subheadline?: string };
   featuredSlugs: string[];
   products: CatalogProduct[];
+  allProducts: CatalogProduct[];
   productsError: string | null;
   shapes: {
     acrylic: CatalogShape[];
@@ -34,6 +35,7 @@ export async function getHomepageData(): Promise<HomepageData> {
     hero: settings.hero,
     featuredSlugs,
     products,
+    allProducts,
     productsError: error,
     shapes,
   };

@@ -1,14 +1,29 @@
 export type LayerType = "text" | "image";
+export type ImageFitMode = "fit" | "fill";
+
+export interface ImageCropSettings {
+  fitMode: ImageFitMode;
+  cropX: number;
+  cropY: number;
+  cropScale: number;
+  cropActive: boolean;
+}
 
 export interface DesignLayer {
   id: string;
   type: LayerType;
   x: number;
   y: number;
+  /** Width as percentage of the design canvas (5–100). */
   width: number;
+  /** Height as percentage of the design canvas (5–100). */
   height: number;
   rotation: number;
   zIndex: number;
+  /** Layer opacity 0–100. Default 100. */
+  opacity?: number;
+  /** When true, width/height scale proportionally. Default true. */
+  aspectLocked?: boolean;
   content?: string;
   fontFamily?: string;
   fontSize?: number;
@@ -18,6 +33,7 @@ export interface DesignLayer {
   align?: "left" | "center" | "right";
   src?: string;
   originalSrc?: string;
+  crop?: ImageCropSettings;
 }
 
 export interface ProductOptions {
@@ -72,10 +88,12 @@ export function createTextLayer(content = "Your Text"): DesignLayer {
     type: "text",
     x: 50,
     y: 50,
-    width: 200,
-    height: 40,
+    width: 60,
+    height: 15,
     rotation: 0,
     zIndex: 1,
+    opacity: 100,
+    aspectLocked: false,
     content,
     fontFamily: FONT_OPTIONS[0],
     fontSize: 24,
@@ -90,13 +108,22 @@ export function createImageLayer(src: string, originalSrc?: string): DesignLayer
   return {
     id: crypto.randomUUID(),
     type: "image",
-    x: 40,
-    y: 40,
-    width: 180,
-    height: 180,
+    x: 20,
+    y: 20,
+    width: 60,
+    height: 60,
     rotation: 0,
     zIndex: 0,
+    opacity: 100,
+    aspectLocked: true,
     src,
     originalSrc: originalSrc ?? src,
+    crop: {
+      fitMode: "fit",
+      cropX: 0,
+      cropY: 0,
+      cropScale: 1,
+      cropActive: false,
+    },
   };
 }

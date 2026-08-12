@@ -1,29 +1,44 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { MarketingLayout } from "@/components/layout/MarketingLayout";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { MarketingImage } from "@/components/ui/MarketingImage";
 import { services } from "@/data/services";
 import { designSteps } from "@/data/design-steps";
+import { pageHeroImages } from "@/data/page-heroes";
 
 export const metadata: Metadata = {
-  title: "Printing Services — Print World",
+  title: "Printing Services | Print World",
   description:
     "Custom printing, photo printing, business materials, bulk orders, and corporate gifts — all designed around you.",
 };
 
 export default function ServicesPage() {
+  const hero = pageHeroImages.services;
+
   return (
     <MarketingLayout>
       <section className="border-b border-card-border bg-surface/40 py-16 sm:py-20">
         <Container>
-          <SectionHeading
-            eyebrow="Services"
-            title="Printing Services Designed Around You"
-            description="From one-of-a-kind gifts to full-scale business printing — we bring your ideas to life with premium quality and personal care."
-            align="left"
-          />
+          <div className="grid items-center gap-10 lg:grid-cols-2">
+            <SectionHeading
+              eyebrow="Services"
+              title="Printing Services Designed Around You"
+              description="From one-of-a-kind gifts to full-scale business printing — we bring your ideas to life with premium quality and personal care."
+              align="left"
+              className="mb-0"
+            />
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-card-border shadow-soft">
+              <MarketingImage
+                src={hero.primaryImage}
+                fallbackSrc={hero.fallbackImages[0]}
+                alt={hero.alt}
+                priority
+                sizes="50vw"
+              />
+            </div>
+          </div>
         </Container>
       </section>
 
@@ -37,11 +52,10 @@ export default function ServicesPage() {
                 className="scroll-mt-24 overflow-hidden rounded-2xl border border-card-border bg-card shadow-soft transition-all hover:-translate-y-1 hover:shadow-soft-hover"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-surface">
-                  <Image
+                  <MarketingImage
                     src={service.image}
+                    fallbackSrc={hero.fallbackImages[0]}
                     alt={service.title}
-                    fill
-                    className="object-cover"
                     sizes="(max-width: 640px) 100vw, 33vw"
                   />
                 </div>

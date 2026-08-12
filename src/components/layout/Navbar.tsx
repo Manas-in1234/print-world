@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { megaMenus, simpleNavLinks } from "@/data/mega-menu";
 import { useCartItemCount, useCartHydrated } from "@/lib/cart/cart-context";
 import { NavbarAuth } from "@/components/layout/NavbarAuth";
+import { PrintWorldLogo } from "@/components/brand/PrintWorldLogo";
 import { cn } from "@/lib/cn";
 
 function CartIcon() {
@@ -55,10 +56,8 @@ export function Navbar() {
 
   return (
     <header ref={navRef} className="sticky top-0 z-50 border-b border-card-border/60 bg-background/90 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
-        <Link href="/" className="font-display text-lg font-semibold tracking-[0.15em] text-foreground transition-opacity hover:opacity-80 sm:text-xl">
-          PRINT WORLD
-        </Link>
+      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+        <PrintWorldLogo variant="header" priority />
 
         <ul className="hidden items-center gap-0.5 lg:flex">
           {megaMenus.map((menu) => (
@@ -68,16 +67,24 @@ export function Navbar() {
               onMouseEnter={() => setActiveMenu(menu.key)}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <button
-                type="button"
-                className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-surface hover:text-foreground"
-                aria-expanded={activeMenu === menu.key}
-                aria-haspopup="true"
-                onClick={() => setActiveMenu(activeMenu === menu.key ? null : menu.key)}
-              >
-                {menu.label}
-                <ChevronIcon open={activeMenu === menu.key} />
-              </button>
+              <div className="flex items-center">
+                <Link
+                  href={menu.href}
+                  className="rounded-lg px-2.5 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-surface hover:text-foreground"
+                >
+                  {menu.label}
+                </Link>
+                <button
+                  type="button"
+                  className="rounded-lg p-2 text-foreground/80 transition-colors hover:bg-surface hover:text-foreground"
+                  aria-expanded={activeMenu === menu.key}
+                  aria-haspopup="true"
+                  aria-label={`${menu.label} menu`}
+                  onClick={() => setActiveMenu(activeMenu === menu.key ? null : menu.key)}
+                >
+                  <ChevronIcon open={activeMenu === menu.key} />
+                </button>
+              </div>
 
               {activeMenu === menu.key && (
                 <div className="absolute left-0 top-full z-50 pt-2">
@@ -135,18 +142,27 @@ export function Navbar() {
 
       {mobileOpen && (
         <div className="border-t border-card-border bg-background lg:hidden">
-          <div className="max-h-[80vh] overflow-y-auto px-4 py-4">
+          <div className="max-h-[80vh] overflow-y-auto overflow-x-hidden px-4 py-4">
             {megaMenus.map((menu) => (
               <div key={menu.key} className="border-b border-card-border/60 py-2">
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-foreground"
-                  onClick={() => setMobileExpanded(mobileExpanded === menu.key ? null : menu.key)}
-                  aria-expanded={mobileExpanded === menu.key}
-                >
-                  {menu.label}
-                  <ChevronIcon open={mobileExpanded === menu.key} />
-                </button>
+                <div className="flex items-center justify-between gap-2">
+                  <Link
+                    href={menu.href}
+                    className="flex-1 rounded-lg px-3 py-2.5 text-sm font-medium text-foreground"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {menu.label}
+                  </Link>
+                  <button
+                    type="button"
+                    className="rounded-lg p-2.5 text-foreground"
+                    onClick={() => setMobileExpanded(mobileExpanded === menu.key ? null : menu.key)}
+                    aria-expanded={mobileExpanded === menu.key}
+                    aria-label={`Expand ${menu.label} submenu`}
+                  >
+                    <ChevronIcon open={mobileExpanded === menu.key} />
+                  </button>
+                </div>
                 {mobileExpanded === menu.key && (
                   <ul className="mt-1 space-y-0.5 pb-2 pl-3">
                     {menu.items.map((item) => (

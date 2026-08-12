@@ -1,5 +1,9 @@
-import { Button } from "@/components/ui/Button";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { cn } from "@/lib/cn";
+
+const ctaButtonBase =
+  "inline-flex min-w-[180px] items-center justify-center rounded-full px-8 py-3.5 text-base font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-foreground";
 
 export function FinalCTA() {
   return (
@@ -16,12 +20,24 @@ export function FinalCTA() {
               Upload your design, customize with ease, and order premium printed products today.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-              <Button href="/customize/custom-t-shirt" size="lg" className="min-w-[180px] bg-background text-foreground hover:bg-background/90">
-                Start Designing
-              </Button>
-              <Button href="/products" variant="secondary" size="lg" className="min-w-[180px] border-background/30 bg-transparent text-background hover:bg-background/10">
+              <Link
+                href="/customize/custom-t-shirt"
+                className={cn(
+                  ctaButtonBase,
+                  "bg-background text-foreground shadow-soft hover:bg-background/90 hover:shadow-soft-hover",
+                )}
+              >
+                Start Creating
+              </Link>
+              <Link
+                href="/products"
+                className={cn(
+                  ctaButtonBase,
+                  "border border-background/40 bg-transparent text-background hover:border-background/60 hover:bg-background/10",
+                )}
+              >
                 Explore Products
-              </Button>
+              </Link>
             </div>
           </div>
         </div>

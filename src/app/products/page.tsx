@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
@@ -6,6 +7,11 @@ import { ProductCatalog } from "@/components/products/ProductCatalog";
 import { loadCatalogFromApi } from "@/lib/catalog/load-catalog-api";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "All Products | Print World",
+  description: "Browse our full collection of premium personalized printing products.",
+};
 
 export default async function ProductsPage() {
   const catalog = await loadCatalogFromApi({});

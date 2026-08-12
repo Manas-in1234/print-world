@@ -5,6 +5,7 @@ import { AcrylicCard } from "@/components/products/AcrylicCard";
 
 interface AcrylicCollectionProps {
   shapes: CatalogShape[];
+  productStorageUrl?: string | null;
 }
 
 export function AcrylicCollection({ shapes }: AcrylicCollectionProps) {

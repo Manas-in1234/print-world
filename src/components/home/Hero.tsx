@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { HERO_PRODUCT_IMAGE } from "@/lib/images/product-image";
+import { MarketingImage } from "@/components/ui/MarketingImage";
+import { pageHeroImages } from "@/data/page-heroes";
 import type { HeroSettings } from "@/lib/site-settings";
 
 export function Hero({ hero }: { hero?: HeroSettings }) {
@@ -9,6 +9,8 @@ export function Hero({ hero }: { hero?: HeroSettings }) {
   const subheadline =
     hero?.subheadline ??
     "Create personalized products, upload your designs, preview them instantly, and order with confidence.";
+
+  const heroConfig = pageHeroImages.home;
 
   return (
     <section className="relative overflow-hidden">
@@ -36,13 +38,12 @@ export function Hero({ hero }: { hero?: HeroSettings }) {
 
           <div className="relative animate-fade-up">
             <div className="relative mx-auto aspect-[4/3] max-w-xl overflow-hidden rounded-3xl border border-card-border shadow-soft-hover lg:max-w-none">
-              <Image
-                src={HERO_PRODUCT_IMAGE}
-                alt="Premium personalized printing products including t-shirts, mugs, and acrylic frames"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+              <MarketingImage
+                src={heroConfig.primaryImage}
+                fallbackSrc={heroConfig.fallbackImages[0]}
+                alt={heroConfig.alt}
                 priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
             <div className="animate-float absolute -bottom-4 -left-2 rounded-2xl border border-card-border bg-card px-4 py-3 shadow-soft sm:-left-6">

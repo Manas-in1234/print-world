@@ -68,7 +68,7 @@ export interface ClockItem {
   id: string;
   slug: string;
   label: string;
-  shape: ProductShapeId;
+  shape: string;
   startingPrice: number;
 }
 

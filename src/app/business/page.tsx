@@ -1,23 +1,58 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { MarketingLayout } from "@/components/layout/MarketingLayout";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { MarketingImage } from "@/components/ui/MarketingImage";
+import { LANDING_ASSET_FILES } from "@/lib/images/product-image";
+import { pageHeroImages } from "@/data/page-heroes";
 
 export const metadata: Metadata = {
-  title: "Business Printing — Print World",
+  title: "Business Printing | Print World",
   description:
     "Business cards, posters, bulk printing, corporate gifts, and branding packages for companies of every size.",
 };
 
 const businessProducts = [
-  { title: "Business Cards", image: "/product-assets/business-card.jpg", href: "/products/business-card", description: "Premium cardstock with sharp detail and professional finishes." },
-  { title: "Posters", image: "/product-assets/custom-poster.jpg", href: "/products/custom-poster", description: "Bold posters for offices, retail, and events." },
-  { title: "Flyers", image: "/product-assets/custom-poster.jpg", href: "/products/custom-poster", description: "High-impact promotional prints for campaigns and launches." },
-  { title: "Corporate Gifts", image: "/product-assets/custom-mug.jpg", href: "/products/custom-mug", id: "corporate-gifts", description: "Branded mugs, apparel, and gift sets for clients and teams." },
-  { title: "Bulk Orders", image: "/product-assets/custom-t-shirt.jpg", href: "/products/custom-t-shirt", id: "bulk-orders", description: "Volume pricing for teams, events, and corporate needs." },
-  { title: "Branding", image: "/product-assets/hero-products.jpg", href: "/products", id: "branding", description: "Consistent brand materials across every customer touchpoint." },
+  {
+    title: "Business Cards",
+    image: `/product-assets/${LANDING_ASSET_FILES["business-card"]}`,
+    href: "/business-cards",
+    description: "Premium cardstock with sharp detail and professional finishes.",
+  },
+  {
+    title: "Posters",
+    image: `/product-assets/${LANDING_ASSET_FILES.poster}`,
+    href: "/posters",
+    description: "Bold posters for offices, retail, and events.",
+  },
+  {
+    title: "Flyers",
+    image: `/product-assets/${LANDING_ASSET_FILES.poster}`,
+    href: "/posters",
+    description: "High-impact promotional prints for campaigns and launches.",
+  },
+  {
+    title: "Corporate Gifts",
+    image: `/product-assets/${LANDING_ASSET_FILES.mug}`,
+    href: "/mugs",
+    id: "corporate-gifts",
+    description: "Branded mugs, apparel, and gift sets for clients and teams.",
+  },
+  {
+    title: "Bulk Orders",
+    image: `/product-assets/${LANDING_ASSET_FILES.tshirt}`,
+    href: "/t-shirts",
+    id: "bulk-orders",
+    description: "Volume pricing for teams, events, and corporate needs.",
+  },
+  {
+    title: "Branding",
+    image: `/product-assets/${LANDING_ASSET_FILES["business-card"]}`,
+    href: "/products",
+    id: "branding",
+    description: "Consistent brand materials across every customer touchpoint.",
+  },
 ];
 
 const whyBusiness = [
@@ -28,6 +63,8 @@ const whyBusiness = [
 ];
 
 export default function BusinessPage() {
+  const hero = pageHeroImages.business;
+
   return (
     <MarketingLayout>
       <section className="border-b border-card-border bg-surface/40 py-16 sm:py-20">
@@ -41,7 +78,13 @@ export default function BusinessPage() {
               className="mb-0"
             />
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-card-border shadow-soft">
-              <Image src="/product-assets/business-card.jpg" alt="Premium business printing" fill className="object-cover" sizes="50vw" priority />
+              <MarketingImage
+                src={hero.primaryImage}
+                fallbackSrc={hero.fallbackImages[0]}
+                alt={hero.alt}
+                priority
+                sizes="50vw"
+              />
             </div>
           </div>
         </Container>
@@ -54,7 +97,7 @@ export default function BusinessPage() {
             {businessProducts.map((item) => (
               <article key={item.title} id={item.id} className="scroll-mt-24 overflow-hidden rounded-2xl border border-card-border bg-card shadow-soft">
                 <div className="relative aspect-[16/10] bg-surface">
-                  <Image src={item.image} alt={item.title} fill className="object-cover" sizes="33vw" />
+                  <MarketingImage src={item.image} fallbackSrc={hero.fallbackImages[0]} alt={item.title} sizes="33vw" />
                 </div>
                 <div className="p-5">
                   <h2 className="font-display text-lg font-semibold">{item.title}</h2>
@@ -83,8 +126,9 @@ export default function BusinessPage() {
 
       <section className="py-16 sm:py-20">
         <Container>
-          <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center">
-            <Button href="/products/business-card" size="lg">Get Started</Button>
+          <SectionHeading title="Custom Packages" description="Mix products and quantities to fit your team, event, or campaign." />
+          <div className="mt-8 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center">
+            <Button href="/business-cards" size="lg">Get Started</Button>
             <Button href="/products" variant="secondary" size="lg">Explore Business Products</Button>
           </div>
         </Container>
