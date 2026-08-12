@@ -1,0 +1,68 @@
+import type { AcrylicItem } from "@/types/navigation";
+
+export const acrylicItems: AcrylicItem[] = [
+  {
+    id: "1",
+    slug: "bean-shape-portrait",
+    label: "Bean Shape Portrait",
+    description: "Organic curved silhouette for portraits",
+    startingPrice: 699,
+    variant: "bean-portrait",
+  },
+  {
+    id: "2",
+    slug: "egg-shape-portrait",
+    label: "Egg Shape Portrait",
+    description: "Soft oval portrait display",
+    startingPrice: 649,
+    variant: "egg-portrait",
+  },
+  {
+    id: "3",
+    slug: "bean-shape-landscape",
+    label: "Bean Shape Landscape",
+    description: "Wide panoramic curved frame",
+    startingPrice: 899,
+    variant: "bean-landscape",
+  },
+  {
+    id: "4",
+    slug: "egg-shape-landscape",
+    label: "Egg Shape Landscape",
+    description: "Horizontal oval landscape display",
+    startingPrice: 849,
+    variant: "egg-landscape",
+  },
+  {
+    id: "5",
+    slug: "5-photo-collage",
+    label: "5 Photo Collage",
+    description: "Five-image acrylic arrangement",
+    startingPrice: 1299,
+    variant: "photo-collage-5",
+  },
+  {
+    id: "6",
+    slug: "large-square-collage",
+    label: "Large + Square Photo Collage",
+    description: "Mixed layout collage display",
+    startingPrice: 1499,
+    variant: "large-square-collage",
+  },
+  {
+    id: "7",
+    slug: "couple-acrylic-art",
+    label: "Couple Acrylic Art",
+    description: "Dual portrait acrylic piece",
+    startingPrice: 999,
+    variant: "couple-acrylic",
+  },
+  {
+    id: "8",
+    slug: "hexagon-7-photo",
+    label: "Hexagon 7 Photo Acrylic",
+    description: "Seven-photo hexagonal layout",
+    startingPrice: 1599,
+    variant: "hexagon-7-photo",
+  },
+];

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#faf8f5"/>
+  <rect x="140" y="80" width="520" height="440" rx="8" fill="#ffffff" stroke="#e8e4df" stroke-width="4"/>
+  <rect x="170" y="110" width="460" height="380" rx="4" fill="url(#frameGrad)"/>
+  <defs>
+    <linearGradient id="frameGrad" x1="170" y1="110" x2="630" y2="490">
+      <stop stop-color="#d4c4a8"/>
+      <stop offset="0.5" stop-color="#8fa8b8"/>
+      <stop offset="1" stop-color="#c4a77d"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="400" cy="280" rx="90" ry="110" fill="#ffffff" opacity="0.35"/>
+  <path d="M320 420c40-60 120-60 160 0" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+  <rect x="120" y="60" width="24" height="480" rx="4" fill="#ffffff" opacity="0.7"/>
+  <rect x="656" y="60" width="24" height="480" rx="4" fill="#ffffff" opacity="0.7"/>
+  <text x="400" y="555" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#2c2c2c">Acrylic Frame</text>
+</svg>

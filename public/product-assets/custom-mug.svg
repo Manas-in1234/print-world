@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#f3f0eb"/>
+  <ellipse cx="400" cy="500" rx="120" ry="18" fill="#2c2c2c" opacity="0.1"/>
+  <path d="M280 180h240c16 0 28 12 28 28v220c0 16-12 28-28 28H280c-16 0-28-12-28-28V208c0-16 12-28 28-28z" fill="#ffffff" stroke="#e8e4df" stroke-width="3"/>
+  <rect x="300" y="220" width="200" height="160" rx="8" fill="#c4a77d" opacity="0.2"/>
+  <circle cx="400" cy="290" r="36" fill="#c4a77d" opacity="0.45"/>
+  <path d="M368 330h64M368 355h40" stroke="#2c2c2c" stroke-width="6" stroke-linecap="round" opacity="0.5"/>
+  <path d="M548 240c48 0 88 36 88 84s-40 84-88 84" stroke="#e8e4df" stroke-width="16" fill="none"/>
+  <text x="400" y="545" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#2c2c2c">Custom Mug</text>
+</svg>

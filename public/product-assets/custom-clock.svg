@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#faf8f5"/>
+  <circle cx="400" cy="290" r="180" fill="#ffffff" stroke="#e8e4df" stroke-width="8"/>
+  <circle cx="400" cy="290" r="160" fill="#f3f0eb" stroke="#c4a77d" stroke-width="2"/>
+  <line x1="400" y1="150" x2="400" y2="170" stroke="#2c2c2c" stroke-width="4"/>
+  <line x1="400" y1="410" x2="400" y2="430" stroke="#2c2c2c" stroke-width="4"/>
+  <line x1="240" y1="290" x2="260" y2="290" stroke="#2c2c2c" stroke-width="4"/>
+  <line x1="540" y1="290" x2="560" y2="290" stroke="#2c2c2c" stroke-width="4"/>
+  <line x1="400" y1="290" x2="400" y2="210" stroke="#2c2c2c" stroke-width="6" stroke-linecap="round"/>
+  <line x1="400" y1="290" x2="460" y2="290" stroke="#c4a77d" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="400" cy="290" r="8" fill="#c4a77d"/>
+  <text x="400" y="530" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#2c2c2c">Custom Clock</text>
+</svg>

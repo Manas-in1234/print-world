@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#faf8f5"/>
+  <rect x="180" y="160" width="440" height="260" rx="12" fill="#ffffff" stroke="#e8e4df" stroke-width="2" transform="rotate(-6 400 290)"/>
+  <rect x="220" y="200" width="440" height="260" rx="12" fill="#2c2c2c" transform="rotate(4 440 330)"/>
+  <text x="280" y="290" font-family="Georgia, serif" font-size="36" fill="#c4a77d">Print World</text>
+  <text x="280" y="330" font-family="Arial, sans-serif" font-size="18" fill="#ffffff" opacity="0.85">Premium Custom Printing</text>
+  <text x="280" y="380" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" opacity="0.65">hello@printworld.com</text>
+  <text x="400" y="530" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#2c2c2c">Business Cards</text>
+</svg>

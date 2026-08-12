@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#f3f0eb"/>
+  <rect x="280" y="40" width="16" height="80" fill="#c4a77d" opacity="0.5"/>
+  <rect x="504" y="40" width="16" height="80" fill="#c4a77d" opacity="0.5"/>
+  <rect x="240" y="100" width="320" height="420" rx="4" fill="#ffffff" stroke="#e8e4df" stroke-width="3"/>
+  <rect x="260" y="120" width="280" height="320" fill="url(#posterGrad)"/>
+  <defs>
+    <linearGradient id="posterGrad" x1="260" y1="120" x2="540" y2="440">
+      <stop stop-color="#c4a77d"/>
+      <stop offset="0.5" stop-color="#8fa8b8"/>
+      <stop offset="1" stop-color="#2c2c2c"/>
+    </linearGradient>
+  </defs>
+  <text x="400" y="280" text-anchor="middle" font-family="Georgia, serif" font-size="42" fill="#ffffff">ART</text>
+  <text x="400" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" opacity="0.8">Premium Wall Poster</text>
+  <text x="400" y="555" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#2c2c2c">Custom Poster</text>
+</svg>

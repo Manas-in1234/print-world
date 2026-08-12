@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#f3f0eb"/>
+  <ellipse cx="400" cy="520" rx="180" ry="24" fill="#2c2c2c" opacity="0.08"/>
+  <path d="M260 180c0-40 35-72 140-72s140 32 140 72v20h48l36 88-72 28-20-48H268l-20 48-72-28 36-88h48v-20z" fill="#e8e4df"/>
+  <path d="M300 128c18-28 52-44 100-44s82 16 100 44" stroke="#c4a77d" stroke-width="3" fill="none"/>
+  <rect x="318" y="248" width="164" height="188" rx="12" fill="#ffffff"/>
+  <circle cx="400" cy="310" r="42" fill="#c4a77d" opacity="0.25"/>
+  <path d="M360 360h80M360 390h56" stroke="#c4a77d" stroke-width="8" stroke-linecap="round"/>
+  <text x="400" y="470" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#2c2c2c">Custom Print</text>
+</svg>
