@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -45,11 +46,13 @@ export default async function ProductsPage() {
               )}
             </p>
           )}
-          <ProductCatalog
-            products={catalog.products}
-            categories={catalog.categories}
-            queryError={queryError}
-          />
+          <Suspense fallback={<div className="py-12 text-center text-sm text-muted">Loading catalog...</div>}>
+            <ProductCatalog
+              products={catalog.products}
+              categories={catalog.categories}
+              queryError={queryError}
+            />
+          </Suspense>
         </Container>
       </main>
       <Footer />

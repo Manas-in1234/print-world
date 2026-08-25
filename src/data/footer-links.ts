@@ -10,6 +10,15 @@ export const footerColumns: FooterColumn[] = [
     })),
   },
   {
+    title: "Festive & Occasions",
+    links: [
+      { label: "Diwali Offers", href: "/diwali" },
+      { label: "Raksha Bandhan", href: "/raksha-bandhan" },
+      { label: "Wedding Gifts", href: "/wedding-gifts" },
+      { label: "Personalized Gifts", href: "/services#personalized-products" },
+    ],
+  },
+  {
     title: "Services",
     links: [
       { label: "All Services", href: "/services" },

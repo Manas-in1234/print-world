@@ -3,6 +3,7 @@ import {
   mapShapeRow,
   type CatalogProduct,
   type CatalogShape,
+  toProductPlaceholder,
 } from "@/lib/catalog/mappers";
 import type {
   DbCategory,
@@ -13,9 +14,123 @@ import type {
 } from "@/types/database";
 import {
   getCatalogClient,
-  getCatalogConfigError,
   validateCatalogEnv,
 } from "@/lib/catalog/catalog-client";
+import { products as staticProducts } from "@/data/products";
+import { categories as staticCategories } from "@/data/categories";
+import { shapes as staticShapes } from "@/data/shapes";
+import { CLOCK_SHAPE_DEFINITIONS } from "@/data/clock-shapes";
+import { acrylicItems } from "@/data/acrylic-items";
+
+function getMockProducts(): CatalogProduct[] {
+  return staticProducts.map((p) => {
+    let shapes: CatalogShape[] = [];
+    if (p.slug === "custom-clock") {
+      shapes = CLOCK_SHAPE_DEFINITIONS.map((def) => ({
+        id: `mock-shape-${def.slug}`,
+        productId: p.id,
+        name: def.name,
+        slug: def.slug,
+        shapeType: "clock",
+        previewKey: def.previewKey,
+        priceAdjustment: def.priceAdjustment,
+        sortOrder: def.sortOrder,
+        startingPrice: p.startingPrice + def.priceAdjustment,
+      }));
+    } else if (p.slug === "acrylic-photo-frame") {
+      shapes = acrylicItems.map((item, idx) => ({
+        id: `mock-acrylic-${item.slug}`,
+        productId: p.id,
+        name: item.label,
+        slug: item.slug,
+        shapeType: "acrylic",
+        previewKey: item.slug,
+        priceAdjustment: Math.max(0, item.startingPrice - p.startingPrice),
+        sortOrder: idx + 1,
+        startingPrice: item.startingPrice,
+      }));
+    }
+
+    return {
+      id: p.id,
+      slug: p.slug,
+      name: p.name,
+      description: p.description,
+      shortDescription: p.shortDescription,
+      startingPrice: p.startingPrice,
+      currency: "INR",
+      category: p.category,
+      categorySlug: p.category,
+      imageKey: toProductPlaceholder(p.slug, p.imagePlaceholder),
+      featured: p.featured,
+      sortOrder: p.sortOrder,
+      variants: [],
+      shapes,
+      images: [
+        {
+          id: `img-${p.id}`,
+          url: `/product-assets/${p.slug}.jpg`,
+          altText: p.name,
+          sortOrder: 1,
+        },
+      ],
+    };
+  });
+}
+
+function getMockCategories(): DbCategory[] {
+  return staticCategories.map((c) => ({
+    id: c.id,
+    name: c.label,
+    slug: c.id,
+    description: c.description ?? null,
+    image: null,
+    active: true,
+    created_at: new Date().toISOString(),
+  }));
+}
+
+function getMockShapes(): {
+  acrylic: CatalogShape[];
+  clock: CatalogShape[];
+  explore: CatalogShape[];
+} {
+  return {
+    acrylic: acrylicItems.map((item, idx) => ({
+      id: `mock-acrylic-${item.slug}`,
+      productId: "2",
+      name: item.label,
+      slug: item.slug,
+      shapeType: "acrylic",
+      previewKey: item.slug,
+      priceAdjustment: Math.max(0, item.startingPrice - 499),
+      sortOrder: idx + 1,
+      startingPrice: item.startingPrice,
+    })),
+    clock: CLOCK_SHAPE_DEFINITIONS.map((def) => ({
+      id: `mock-shape-${def.slug}`,
+      productId: "6",
+      name: def.name,
+      slug: def.slug,
+      shapeType: "clock",
+      previewKey: def.previewKey,
+      priceAdjustment: def.priceAdjustment,
+      sortOrder: def.sortOrder,
+      startingPrice: 799 + def.priceAdjustment,
+    })),
+    explore: staticShapes.map((s, idx) => ({
+      id: `mock-explore-${s.id}`,
+      productId: "6",
+      name: s.label,
+      slug: s.id,
+      shapeType: "explore",
+      previewKey: s.id,
+      priceAdjustment: 0,
+      sortOrder: idx + 1,
+      startingPrice: 799,
+    })),
+  };
+}
 
 export interface ProductQueryOptions {
   featured?: boolean;
@@ -89,12 +204,21 @@ function sortProducts(products: CatalogProduct[], sort: ProductQueryOptions["sor
   }
 }
 
+function filterMockProducts(options: ProductQueryOptions): CatalogProduct[] {
+  let list = getMockProducts();
+  if (options.featured) list = list.filter((p) => p.featured);
+  if (options.category) list = list.filter((p) => p.category === options.category);
+  if (options.slugs?.length) list = list.filter((p) => options.slugs!.includes(p.slug));
+  if (options.limit) list = list.slice(0, options.limit);
+  return sortProducts(list, options.sort);
+}
+
 export async function getProductsFromService(
   options: ProductQueryOptions = {},
 ): Promise<CatalogQueryResult<CatalogProduct[]>> {
   const supabase = getCatalogClient();
   if (!supabase) {
-    return { data: [], error: getCatalogConfigError(), configured: false };
+    return { data: filterMockProducts(options), error: null, configured: false };
   }
 
   let query = supabase.from("products").select("*").eq("active", true);
@@ -110,11 +234,11 @@ export async function getProductsFromService(
 
   if (error) {
     logCatalogError("getProducts", error.message);
-    return { data: [], error: error.message, configured: true };
+    return { data: filterMockProducts(options), error: error.message, configured: true };
   }
 
   if (!data?.length) {
-    return { data: [], error: null, configured: true };
+    return { data: filterMockProducts(options), error: null, configured: true };
   }
 
   const rows = data as DbProduct[];
@@ -140,7 +264,7 @@ export async function getProductsFromService(
 export async function getCategoriesFromService(): Promise<CatalogQueryResult<DbCategory[]>> {
   const supabase = getCatalogClient();
   if (!supabase) {
-    return { data: [], error: getCatalogConfigError(), configured: false };
+    return { data: getMockCategories(), error: null, configured: false };
   }
 
   const { data, error } = await supabase
@@ -149,9 +273,9 @@ export async function getCategoriesFromService(): Promise<CatalogQueryResult<DbC
     .eq("active", true)
     .order("name");
 
-  if (error) {
-    logCatalogError("getCategories", error.message);
-    return { data: [], error: error.message, configured: true };
+  if (error || !data?.length) {
+    if (error) logCatalogError("getCategories", error.message);
+    return { data: getMockCategories(), error: error?.message ?? null, configured: true };
   }
 
   return { data: (data ?? []) as DbCategory[], error: null, configured: true };
@@ -163,7 +287,7 @@ export async function getHomepageShapesFromService(): Promise<{
   explore: CatalogShape[];
 }> {
   const supabase = getCatalogClient();
-  if (!supabase) return { acrylic: [], clock: [], explore: [] };
+  if (!supabase) return getMockShapes();
 
   const { data: shapes, error } = await supabase
     .from("product_shapes")
@@ -172,9 +296,9 @@ export async function getHomepageShapesFromService(): Promise<{
     .eq("active", true)
     .order("sort_order");
 
-  if (error || !shapes) {
-    logCatalogError("getHomepageShapes", error?.message ?? "no data");
-    return { acrylic: [], clock: [], explore: [] };
+  if (error || !shapes || shapes.length === 0) {
+    if (error) logCatalogError("getHomepageShapes", error?.message ?? "no data");
+    return getMockShapes();
   }
 
   const shapeRows = shapes as DbProductShape[];
@@ -205,7 +329,9 @@ export async function getHomepageShapesFromService(): Promise<{
 
 export async function getProductBySlugFromService(slug: string): Promise<CatalogProduct | null> {
   const supabase = getCatalogClient();
-  if (!supabase) return null;
+  if (!supabase) {
+    return getMockProducts().find((p) => p.slug === slug) ?? null;
+  }
 
   const { data, error } = await supabase
     .from("products")
@@ -216,10 +342,10 @@ export async function getProductBySlugFromService(slug: string): Promise<Catalog
 
   if (error) {
     logCatalogError("getProductBySlug", error.message);
-    return null;
+    return getMockProducts().find((p) => p.slug === slug) ?? null;
   }
 
-  if (!data) return null;
+  if (!data) return getMockProducts().find((p) => p.slug === slug) ?? null;
 
   const row = data as DbProduct;
   const related = await fetchRelatedData(supabase, [row.id]);
@@ -229,13 +355,13 @@ export async function getProductBySlugFromService(slug: string): Promise<Catalog
 
 export async function getProductSlugsFromService(): Promise<string[]> {
   const supabase = getCatalogClient();
-  if (!supabase) return [];
+  if (!supabase) return getMockProducts().map((p) => p.slug);
 
   const { data, error } = await supabase.from("products").select("slug").eq("active", true);
 
-  if (error) {
-    logCatalogError("getProductSlugs", error.message);
-    return [];
+  if (error || !data?.length) {
+    if (error) logCatalogError("getProductSlugs", error.message);
+    return getMockProducts().map((p) => p.slug);
   }
 
   return ((data ?? []) as { slug: string }[]).map((p) => p.slug);
@@ -247,12 +373,15 @@ export async function getCatalogBundle(
 ): Promise<CatalogApiResponse> {
   const envStatus = validateCatalogEnv();
   if (!envStatus.ok) {
+    const mockProds = filterMockProducts(options);
+    const mockCats = getMockCategories();
+    const mockShapes = getMockShapes();
     return {
-      products: [],
-      categories: [],
-      shapes: { acrylic: [], clock: [], explore: [] },
+      products: mockProds,
+      categories: mockCats.map((c) => ({ slug: c.slug, name: c.name })),
+      shapes: mockShapes,
       configured: false,
-      error: envStatus.error,
+      error: null,
     };
   }
 

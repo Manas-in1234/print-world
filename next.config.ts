@@ -7,6 +7,7 @@ const supabasePublishableKey =
   "";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   // Explicitly pass public Supabase vars into the build so client bundles
   // receive them on Vercel (NEXT_PUBLIC_* are inlined at build time).
   env: {

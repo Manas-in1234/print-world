@@ -1,16 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf8f5;
-  --foreground: #2c2c2c;
-  --muted: #6b6b6b;
-  --accent: #c4a77d;
-  --accent-hover: #b8966a;
+  --background: #f6f7fb;
+  --foreground: #1f1f1f;
+  --muted: #6b7280;
+  --accent: #6c2bd9;
+  --accent-hover: #4b1fa8;
+  --primary-purple: #6c2bd9;
+  --dark-purple: #4b1fa8;
+  --light-purple: #f3e8ff;
+  --offer: #ffb000;
+  --success: #15803d;
   --card: #ffffff;
-  --card-border: #e8e4df;
-  --surface: #f3f0eb;
-  --shadow: 0 4px 24px rgba(44, 44, 44, 0.06);
-  --shadow-hover: 0 8px 32px rgba(44, 44, 44, 0.12);
+  --card-border: #e5e7eb;
+  --surface: #f4f5f9;
+  --shadow: 0 2px 10px rgba(108, 43, 217, 0.05);
+  --shadow-hover: 0 8px 24px rgba(108, 43, 217, 0.12);
 }
 
 @theme inline {
@@ -19,6 +24,11 @@
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-primary-purple: var(--primary-purple);
+  --color-dark-purple: var(--dark-purple);
+  --color-light-purple: var(--light-purple);
+  --color-offer: var(--offer);
+  --color-success: var(--success);
   --color-card: var(--card);
   --color-card-border: var(--card-border);
   --color-surface: var(--surface);

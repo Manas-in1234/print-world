@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { CatalogProduct } from "@/lib/catalog/mappers";
 import { ProductCard } from "@/components/products/ProductCard";
 
@@ -13,9 +14,18 @@ interface ProductCatalogProps {
 type SortOption = "default" | "price-asc" | "price-desc" | "name";
 
 export function ProductCatalog({ products, categories, queryError }: ProductCatalogProps) {
-  const [category, setCategory] = useState<string>("all");
-  const [sort, setSort] = useState<SortOption>("default");
-  const [search, setSearch] = useState("");
+  const searchParams = useSearchParams();
+  const initialSearch = searchParams.get("search") || searchParams.get("q") || "";
+  const initialCategory = searchParams.get("category") || "all";
+  const initialSortParam = searchParams.get("sort");
+  const initialSort: SortOption =
+    initialSortParam === "price-asc" || initialSortParam === "price-desc" || initialSortParam === "name"
+      ? (initialSortParam as SortOption)
+      : "default";
+
+  const [category, setCategory] = useState<string>(initialCategory);
+  const [sort, setSort] = useState<SortOption>(initialSort);
+  const [search, setSearch] = useState<string>(initialSearch);
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -56,7 +66,7 @@ export function ProductCatalog({ products, categories, queryError }: ProductCata
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search products…"
-          className="w-full rounded-xl border border-card-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted/60 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 sm:max-w-md"
+          className="w-full rounded-xl border border-card-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted/60 focus:border-[#6C2BD9] focus:outline-none focus:ring-2 focus:ring-[#6C2BD9]/20 sm:max-w-md"
           aria-label="Search products"
         />
       </div>
@@ -78,7 +88,7 @@ export function ProductCatalog({ products, categories, queryError }: ProductCata
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value as SortOption)}
-          className="rounded-full border border-card-border bg-card px-4 py-2 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+          className="rounded-full border border-card-border bg-card px-4 py-2 text-sm text-foreground focus:border-[#6C2BD9] focus:outline-none focus:ring-2 focus:ring-[#6C2BD9]/20"
           aria-label="Sort products"
         >
           <option value="default">Default</option>
@@ -124,8 +134,8 @@ function FilterButton({
       onClick={onClick}
       className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
         active
-          ? "border-foreground bg-foreground text-background"
-          : "border-card-border bg-card text-foreground hover:border-accent"
+          ? "border-[#6C2BD9] bg-[#6C2BD9] text-white shadow-xs"
+          : "border-card-border bg-card text-foreground hover:border-[#6C2BD9] hover:bg-[#F3E8FF]/40"
       }`}
     >
       {children}

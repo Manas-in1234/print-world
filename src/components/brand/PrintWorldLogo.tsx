@@ -2,82 +2,60 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 
-export const PRINT_WORLD_LOGO = "/brand/print-world-logo.jpg";
+export const PRINT_WORLD_LOGO_SVG = "/brand/print-world-logo.svg";
+export const PRINT_WORLD_LOGO_IMG = "/brand/print-world-logo.jpg";
+export const PRINT_WORLD_LOGO = "/brand/print-world-logo.svg";
 
 interface PrintWorldLogoProps {
-  variant?: "header" | "footer";
+  variant?: "header" | "footer" | "standalone";
   linked?: boolean;
-  showWordmark?: boolean;
   className?: string;
   priority?: boolean;
 }
 
-const markSizes = {
-  header: { width: 40, height: 40, className: "h-9 w-9 sm:h-10 sm:w-10" },
-  footer: { width: 36, height: 36, className: "h-8 w-8" },
-} as const;
-
 export function PrintWorldLogo({
   variant = "header",
   linked = true,
-  showWordmark,
   className,
-  priority = false,
+  priority = true,
 }: PrintWorldLogoProps) {
-  const { width, height, className: markClass } = markSizes[variant];
-  const withWordmark = showWordmark ?? variant === "header";
-
-  const mark = (
-    <Image
-      src={PRINT_WORLD_LOGO}
-      alt=""
-      width={width}
-      height={height}
-      priority={priority}
-      aria-hidden={withWordmark}
-      className={cn(markClass, "shrink-0 object-contain", className)}
-    />
-  );
-
-  const brand = withWordmark ? (
-    <>
-      {mark}
-      <span className="font-display text-[1.05rem] font-semibold tracking-[0.14em] text-foreground sm:text-[1.15rem]">
-        Print World
-      </span>
-    </>
-  ) : (
-    <Image
-      src={PRINT_WORLD_LOGO}
-      alt="Print World"
-      width={variant === "header" ? 140 : 120}
-      height={variant === "header" ? 36 : 32}
-      priority={priority}
+  const logoElement = (
+    <div
       className={cn(
-        variant === "header" ? "h-8 w-auto sm:h-9" : "h-7 w-auto",
-        "object-contain object-left",
+        "inline-flex items-center justify-center overflow-hidden rounded-lg bg-white p-1 shadow-xs transition-transform duration-200 hover:scale-[1.02]",
+        variant === "header" && "h-9 sm:h-10 px-2 sm:px-2.5",
+        variant === "footer" && "h-9 sm:h-10 px-2 sm:px-2.5",
+        variant === "standalone" && "h-12 px-3",
         className,
       )}
-    />
+    >
+      <Image
+        src={PRINT_WORLD_LOGO_SVG}
+        alt="Print World"
+        width={180}
+        height={42}
+        priority={priority}
+        className={cn(
+          "h-full w-auto object-contain",
+          variant === "header" && "max-h-7 sm:max-h-8",
+          variant === "footer" && "max-h-7 sm:max-h-8",
+          variant === "standalone" && "max-h-10",
+        )}
+      />
+    </div>
   );
 
   if (!linked) {
-    return (
-      <span className={cn("inline-flex items-center gap-2.5", withWordmark && "gap-2.5 sm:gap-3")}>
-        {brand}
-      </span>
-    );
+    return logoElement;
   }
 
   return (
     <Link
       href="/"
-      className={cn(
-        "inline-flex min-w-0 shrink-0 items-center gap-2.5 transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 sm:gap-3",
-      )}
+      className="inline-flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
       aria-label="Print World — Home"
     >
-      {brand}
+      {logoElement}
     </Link>
   );
 }

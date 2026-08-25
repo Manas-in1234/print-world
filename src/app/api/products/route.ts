@@ -24,7 +24,7 @@ export async function GET(request: Request) {
   try {
     const payload = await getCatalogBundle(options);
 
-    if (!payload.configured) {
+    if (!payload.configured && payload.products.length === 0) {
       return NextResponse.json(payload, { status: 503 });
     }
 

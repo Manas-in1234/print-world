@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="280" height="60" fill="none">
+  <!-- White Background Container -->
+  <rect width="280" height="60" rx="8" fill="#FFFFFF"/>
+  
+  <g transform="translate(10, 8)">
+    <!-- "PRINT W" in Magenta -->
+    <text x="6" y="34" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="900" letter-spacing="1.5" fill="#E5007D">PRINT W</text>
+    
+    <!-- CMYK Registration Target "O" -->
+    <!-- Positioned right after W at x=154, center at (170, 24), radius=16 -->
+    <g transform="translate(170, 24)">
+      <!-- Top-Left Quadrant (Cyan) -->
+      <path d="M 0 0 L -16 0 A 16 16 0 0 1 0 -16 Z" fill="#00AEEF"/>
+      <!-- Top-Right Quadrant (Magenta) -->
+      <path d="M 0 0 L 0 -16 A 16 16 0 0 1 16 0 Z" fill="#E5007D"/>
+      <!-- Bottom-Left Quadrant (Black) -->
+      <path d="M 0 0 L 0 16 A 16 16 0 0 1 -16 0 Z" fill="#171717"/>
+      <!-- Bottom-Right Quadrant (Yellow) -->
+      <path d="M 0 0 L 16 0 A 16 16 0 0 1 0 16 Z" fill="#FFD200"/>
+      
+      <!-- Thin Crosshairs -->
+      <line x1="-19" y1="0" x2="19" y2="0" stroke="#171717" stroke-width="1.2"/>
+      <line x1="0" y1="-19" x2="0" y2="19" stroke="#171717" stroke-width="1.2"/>
+    </g>
+    
+    <!-- "RLD" in Magenta -->
+    <text x="194" y="34" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="900" letter-spacing="1.5" fill="#E5007D">RLD</text>
+  </g>
+</svg>

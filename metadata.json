@@ -1,0 +1,6 @@
+{
+  "name": "Print World",
+  "description": "Personalized printing & custom products platform with customizable shapes, AI studio, and online store.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
